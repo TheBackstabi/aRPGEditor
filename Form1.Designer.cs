@@ -35,6 +35,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.pan_Spells = new System.Windows.Forms.Panel();
+            this.SPL_btn_Create = new System.Windows.Forms.Button();
+            this.SPL_btn_Reset = new System.Windows.Forms.Button();
+            this.SPL_btn_Apply = new System.Windows.Forms.Button();
             this.SPL_radius = new System.Windows.Forms.NumericUpDown();
             this.SPL_ticks = new System.Windows.Forms.NumericUpDown();
             this.SPL_duration = new System.Windows.Forms.NumericUpDown();
@@ -92,9 +95,6 @@
             this.txt_ProjectLoc = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.SPL_btn_Apply = new System.Windows.Forms.Button();
-            this.SPL_btn_Reset = new System.Windows.Forms.Button();
-            this.SPL_btn_Create = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -227,6 +227,36 @@
             this.pan_Spells.Size = new System.Drawing.Size(676, 470);
             this.pan_Spells.TabIndex = 0;
             // 
+            // SPL_btn_Create
+            // 
+            this.SPL_btn_Create.Location = new System.Drawing.Point(169, 3);
+            this.SPL_btn_Create.Name = "SPL_btn_Create";
+            this.SPL_btn_Create.Size = new System.Drawing.Size(75, 36);
+            this.SPL_btn_Create.TabIndex = 54;
+            this.SPL_btn_Create.Text = "Create";
+            this.SPL_btn_Create.UseVisualStyleBackColor = true;
+            this.SPL_btn_Create.Click += new System.EventHandler(this.SPL_btn_Create_Click);
+            // 
+            // SPL_btn_Reset
+            // 
+            this.SPL_btn_Reset.Location = new System.Drawing.Point(7, 3);
+            this.SPL_btn_Reset.Name = "SPL_btn_Reset";
+            this.SPL_btn_Reset.Size = new System.Drawing.Size(75, 36);
+            this.SPL_btn_Reset.TabIndex = 53;
+            this.SPL_btn_Reset.Text = "Reset";
+            this.SPL_btn_Reset.UseVisualStyleBackColor = true;
+            this.SPL_btn_Reset.Click += new System.EventHandler(this.SPL_btn_Reset_Click);
+            // 
+            // SPL_btn_Apply
+            // 
+            this.SPL_btn_Apply.Location = new System.Drawing.Point(88, 3);
+            this.SPL_btn_Apply.Name = "SPL_btn_Apply";
+            this.SPL_btn_Apply.Size = new System.Drawing.Size(75, 36);
+            this.SPL_btn_Apply.TabIndex = 52;
+            this.SPL_btn_Apply.Text = "Apply";
+            this.SPL_btn_Apply.UseVisualStyleBackColor = true;
+            this.SPL_btn_Apply.Click += new System.EventHandler(this.SPL_btn_Apply_Click);
+            // 
             // SPL_radius
             // 
             this.SPL_radius.Location = new System.Drawing.Point(460, 559);
@@ -310,10 +340,10 @@
             this.SPL_rad_AoEDoT.AutoSize = true;
             this.SPL_rad_AoEDoT.Location = new System.Drawing.Point(158, 25);
             this.SPL_rad_AoEDoT.Name = "SPL_rad_AoEDoT";
-            this.SPL_rad_AoEDoT.Size = new System.Drawing.Size(78, 17);
+            this.SPL_rad_AoEDoT.Size = new System.Drawing.Size(66, 17);
             this.SPL_rad_AoEDoT.TabIndex = 2;
             this.SPL_rad_AoEDoT.TabStop = true;
-            this.SPL_rad_AoEDoT.Text = "AoE + DoT";
+            this.SPL_rad_AoEDoT.Text = "AoEDoT";
             this.SPL_rad_AoEDoT.UseVisualStyleBackColor = true;
             this.SPL_rad_AoEDoT.CheckedChanged += new System.EventHandler(this.SPL_radioButtonChanged);
             // 
@@ -778,36 +808,6 @@
             // folderBrowserDialog1
             // 
             this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.MyComputer;
-            // 
-            // SPL_btn_Apply
-            // 
-            this.SPL_btn_Apply.Location = new System.Drawing.Point(88, 3);
-            this.SPL_btn_Apply.Name = "SPL_btn_Apply";
-            this.SPL_btn_Apply.Size = new System.Drawing.Size(75, 36);
-            this.SPL_btn_Apply.TabIndex = 52;
-            this.SPL_btn_Apply.Text = "Apply";
-            this.SPL_btn_Apply.UseVisualStyleBackColor = true;
-            this.SPL_btn_Apply.Click += new System.EventHandler(this.SPL_btn_Apply_Click);
-            // 
-            // SPL_btn_Reset
-            // 
-            this.SPL_btn_Reset.Location = new System.Drawing.Point(7, 3);
-            this.SPL_btn_Reset.Name = "SPL_btn_Reset";
-            this.SPL_btn_Reset.Size = new System.Drawing.Size(75, 36);
-            this.SPL_btn_Reset.TabIndex = 53;
-            this.SPL_btn_Reset.Text = "Reset";
-            this.SPL_btn_Reset.UseVisualStyleBackColor = true;
-            this.SPL_btn_Reset.Click += new System.EventHandler(this.SPL_btn_Reset_Click);
-            // 
-            // SPL_btn_Create
-            // 
-            this.SPL_btn_Create.Location = new System.Drawing.Point(169, 3);
-            this.SPL_btn_Create.Name = "SPL_btn_Create";
-            this.SPL_btn_Create.Size = new System.Drawing.Size(75, 36);
-            this.SPL_btn_Create.TabIndex = 54;
-            this.SPL_btn_Create.Text = "Create";
-            this.SPL_btn_Create.UseVisualStyleBackColor = true;
-            this.SPL_btn_Create.Click += new System.EventHandler(this.SPL_btn_Create_Click);
             // 
             // Form1
             // 

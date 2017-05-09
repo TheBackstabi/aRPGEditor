@@ -18,6 +18,7 @@ namespace aRPGEditor
         Dictionary<int, Aura> auras;
         Dictionary<string, Texture> textures;
         IList<string> gameResources;
+        string currentSpellType;
 
         public Form1()
         {
@@ -171,6 +172,7 @@ namespace aRPGEditor
         private void SPL_radioButtonChanged(object sender, EventArgs e)
         {
             RadioButton selected = (RadioButton)sender;
+            currentSpellType = selected.Text;
             switch (selected.Text)
             {
                 case "DoT":
@@ -183,7 +185,7 @@ namespace aRPGEditor
                     SPL_radius.Enabled = true;
                     SPL_ticks.Enabled = false;
                     break;
-                case "AoE + DoT":
+                case "AoEDoT":
                     SPL_duration.Enabled = true;
                     SPL_radius.Enabled = true;
                     SPL_ticks.Enabled = true;
@@ -279,6 +281,7 @@ namespace aRPGEditor
             selectedSpell.ignoreGCD = bool.Parse(SPL_noGCD.Text);
             selectedSpell.school = int.Parse(SPL_School.Text);
             selectedSpell.objectPath = SPL_Gameobj.Text;
+            selectedSpell.type = currentSpellType;
             switch (selectedSpell.type)
             {
                 case "DoT":
