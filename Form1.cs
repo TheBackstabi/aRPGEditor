@@ -33,6 +33,20 @@ namespace aRPGEditor
             }
         }
 
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            BinaryFormatter format = new BinaryFormatter();
+            FileStream save = File.Create(txt_ProjectLoc.Text + "/Assets/Data/Spells.dat");
+            format.Serialize(save, spells);
+            save.Close();
+            save = File.Create(txt_ProjectLoc.Text + "/Assets/Data/Auras.dat");
+            format.Serialize(save, auras);
+            save.Close();
+            save = File.Create(txt_ProjectLoc.Text + "/Assets/Data/Textures.dat");
+            format.Serialize(save, textures);
+            save.Close();
+        }
+
         private void ReloadSpells(string projLoc)
         {
             string filePath = projLoc + "/Assets/Data/Spells.dat";
@@ -154,7 +168,35 @@ namespace aRPGEditor
             }
         }
 
-        private void lst_Spells_SelectedIndexChanged(object sender, EventArgs e)
+        private void SPL_radioButtonChanged(object sender, EventArgs e)
+        {
+            RadioButton selected = (RadioButton)sender;
+            switch (selected.Text)
+            {
+                case "DoT":
+                    SPL_duration.Enabled = true;
+                    SPL_radius.Enabled = false;
+                    SPL_ticks.Enabled = true;
+                    break;
+                case "AoE":
+                    SPL_duration.Enabled = false;
+                    SPL_radius.Enabled = true;
+                    SPL_ticks.Enabled = false;
+                    break;
+                case "AoE + DoT":
+                    SPL_duration.Enabled = true;
+                    SPL_radius.Enabled = true;
+                    SPL_ticks.Enabled = true;
+                    break;
+                default:
+                    SPL_duration.Enabled = false;
+                    SPL_radius.Enabled = false;
+                    SPL_ticks.Enabled = false;
+                    break;
+            }
+        }
+
+        private void BuildSpellData()
         {
             Spell selectedSpell = spells[lst_Spells.SelectedIndex];
             SPL_Name.Text = selectedSpell.name;
@@ -167,9 +209,131 @@ namespace aRPGEditor
             SPL_noGCD.Text = selectedSpell.ignoreGCD.ToString();
             SPL_School.Text = selectedSpell.school.ToString();
             SPL_Gameobj.Text = selectedSpell.objectPath;
+            switch (selectedSpell.type)
+            {
+                case "DoT":
+                    SPL_rad_DoT.Checked = true;
+                    SPL_duration.Enabled = true;
+                    SPL_duration.Value = selectedSpell.duration;
+                    SPL_radius.Enabled = false;
+                    SPL_radius.Value = 0;
+                    SPL_ticks.Enabled = true;
+                    SPL_ticks.Value = selectedSpell.ticks;
+                    break;
+                case "AoE":
+                    SPL_rad_AoE.Checked = true;
+                    SPL_duration.Enabled = false;
+                    SPL_duration.Value = 0;
+                    SPL_radius.Enabled = true;
+                    SPL_radius.Value = selectedSpell.radius;
+                    SPL_ticks.Enabled = false;
+                    SPL_ticks.Value = 0;
+                    break;
+                case "AoEDoT":
+                    SPL_rad_AoEDoT.Checked = true;
+                    SPL_duration.Enabled = true;
+                    SPL_duration.Value = selectedSpell.duration;
+                    SPL_radius.Enabled = true;
+                    SPL_radius.Value = selectedSpell.radius;
+                    SPL_ticks.Enabled = true;
+                    SPL_ticks.Value = selectedSpell.ticks;
+                    break;
+                default:
+                    SPL_rad_Instant.Checked = true;
+                    SPL_duration.Enabled = false;
+                    SPL_duration.Value = 0;
+                    SPL_radius.Enabled = false;
+                    SPL_radius.Value = 0;
+                    SPL_ticks.Enabled = false;
+                    SPL_ticks.Value = 0;
+                    break;
+            }
         }
 
-        private void lst_Auras_SelectedIndexChanged(object sender, EventArgs e)
+        private void lst_Spells_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lst_Spells.SelectedIndex >= 0)
+            {
+                BuildSpellData();
+            }
+        }
+
+        private void SPL_btn_Reset_Click(object sender, EventArgs e)
+        {
+            if (lst_Spells.SelectedIndex >= 0)
+            {
+                BuildSpellData();
+            }
+        }
+
+        private void SPL_btn_Apply_Click(object sender, EventArgs e)
+        {
+            Spell selectedSpell = spells[lst_Spells.SelectedIndex];
+            selectedSpell.name = SPL_Name.Text;
+            selectedSpell.desc = SPL_Desc.Text;
+            selectedSpell.manaCost = (int)SPL_Cost.Value;
+            selectedSpell.damageValue = (int)SPL_Potency.Value;
+            selectedSpell.range = (int)SPL_Range.Value;
+            selectedSpell.texture = SPL_Texture.Text;
+            selectedSpell.cooldown = (int)SPL_cooldown.Value;
+            selectedSpell.ignoreGCD = bool.Parse(SPL_noGCD.Text);
+            selectedSpell.school = int.Parse(SPL_School.Text);
+            selectedSpell.objectPath = SPL_Gameobj.Text;
+            switch (selectedSpell.type)
+            {
+                case "DoT":
+                    selectedSpell.duration = (int)SPL_duration.Value;
+                    selectedSpell.ticks = (int)SPL_ticks.Value;
+                    break;
+                case "AoE":
+                    selectedSpell.radius = (int)SPL_radius.Value;
+                    break;
+                case "AoEDoT":
+                    selectedSpell.duration = (int)SPL_duration.Value;
+                    selectedSpell.radius = (int)SPL_radius.Value;
+                    selectedSpell.ticks = (int)SPL_ticks.Value;
+                    break;
+            }
+
+            lst_Spells.Items[lst_Spells.SelectedIndex] = "(" + selectedSpell.id + ") " + selectedSpell.name;
+            spells[lst_Spells.SelectedIndex] = selectedSpell;
+        }
+
+        private void SPL_btn_Create_Click(object sender, EventArgs e)
+        {
+            Spell selectedSpell = new Spell();
+            selectedSpell.id = spells.Values.Last().id + 1;
+            selectedSpell.name = SPL_Name.Text;
+            selectedSpell.desc = SPL_Desc.Text;
+            selectedSpell.manaCost = (int)SPL_Cost.Value;
+            selectedSpell.damageValue = (int)SPL_Potency.Value;
+            selectedSpell.range = (int)SPL_Range.Value;
+            selectedSpell.texture = SPL_Texture.Text;
+            selectedSpell.cooldown = (int)SPL_cooldown.Value;
+            selectedSpell.ignoreGCD = bool.Parse(SPL_noGCD.Text);
+            selectedSpell.school = int.Parse(SPL_School.Text);
+            selectedSpell.objectPath = SPL_Gameobj.Text;
+            switch (selectedSpell.type)
+            {
+                case "DoT":
+                    selectedSpell.duration = (int)SPL_duration.Value;
+                    selectedSpell.ticks = (int)SPL_ticks.Value;
+                    break;
+                case "AoE":
+                    selectedSpell.radius = (int)SPL_radius.Value;
+                    break;
+                case "AoEDoT":
+                    selectedSpell.duration = (int)SPL_duration.Value;
+                    selectedSpell.radius = (int)SPL_radius.Value;
+                    selectedSpell.ticks = (int)SPL_ticks.Value;
+                    break;
+            }
+
+            lst_Spells.Items.Add("(" + selectedSpell.id + ") " + selectedSpell.name);
+            spells.Add(selectedSpell.id, selectedSpell);
+        }
+
+        private void BuildAuraData()
         {
             Aura selectedAura = auras[lst_Auras.SelectedIndex];
             AUR_Name.Text = selectedAura.auraName;
@@ -181,12 +345,20 @@ namespace aRPGEditor
 
             AUR_Mods.Items.Clear();
             AUR_Mods.BeginUpdate();
-            foreach(Aura.Modifier mod in selectedAura.mods)
+            foreach (Aura.Modifier mod in selectedAura.mods)
             {
                 string auraString = mod.spellID + ":" + mod.mod.ToString() + ":" + mod.value;
                 AUR_Mods.Items.Add(auraString);
             }
             AUR_Mods.EndUpdate();
+        }
+
+        private void lst_Auras_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (lst_Auras.SelectedIndex >= 0)
+            {
+                BuildAuraData();
+            }
         }
 
         private void AUR_Modifiers_DoubleClick(object sender, EventArgs e)
