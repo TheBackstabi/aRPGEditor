@@ -34,7 +34,7 @@ namespace aRPGEditor
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void SaveAllFiles()
         {
             BinaryFormatter format = new BinaryFormatter();
             FileStream save = File.Create(txt_ProjectLoc.Text + "/Assets/Data/Spells.dat");
@@ -46,6 +46,11 @@ namespace aRPGEditor
             save = File.Create(txt_ProjectLoc.Text + "/Assets/Data/Textures.dat");
             format.Serialize(save, textures);
             save.Close();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveAllFiles();
         }
 
         private void ReloadSpells(string projLoc)
@@ -300,6 +305,7 @@ namespace aRPGEditor
 
             lst_Spells.Items[lst_Spells.SelectedIndex] = "(" + selectedSpell.id + ") " + selectedSpell.name;
             spells[lst_Spells.SelectedIndex] = selectedSpell;
+            SaveAllFiles();
         }
 
         private void SPL_btn_Create_Click(object sender, EventArgs e)
@@ -334,6 +340,7 @@ namespace aRPGEditor
 
             lst_Spells.Items.Add("(" + selectedSpell.id + ") " + selectedSpell.name);
             spells.Add(selectedSpell.id, selectedSpell);
+            SaveAllFiles();
         }
 
         private void BuildAuraData()
